@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,121 +22,178 @@ namespace TypingTrain
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool isCapsLockOn;
-        private bool isShiftPressed;
+        private bool isShiftPressed = false;
+
+        private bool regist = false;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.KeyDown += MainWindow_KeyDown;
-            this.KeyUp += MainWindow_KeyUp;
+            stopBtn.IsEnabled = false;
+
+            /*this.KeyDown += MainWindow_KeyDown;
+            this.KeyUp += MainWindow_KeyUp;*/
         }
 
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.CapsLock)
-            {
-                isCapsLockOn = !isCapsLockOn;
-            }
+            stopBtn.IsEnabled = true;
+            startBtn.IsEnabled = false;
 
-            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
-            {
-                isShiftPressed = true;
-            }
+            randowSymbols();
+            outputBlock.Focusable = true;
+            outputBlock.Focus();
 
-            UpdateButtonText();
         }
 
-        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
-            {
-                isShiftPressed = false;
-            }
-
-            UpdateButtonText();
-        }
-
-        private void UpdateButtonText()
-        {
-            firstButton.Content = isCapsLockOn ? (isShiftPressed ? "Q" : "q") : (isShiftPressed ? "q" : "Q");
-            secondButton.Content = isCapsLockOn ? (isShiftPressed ? "W" : "w") : (isShiftPressed ? "w" : "W");
-            thirdButton.Content = isCapsLockOn ? (isShiftPressed ? "E" : "e") : (isShiftPressed ? "e" : "E");
-            fourthtButton.Content = isCapsLockOn ? (isShiftPressed ? "R" : "r") : (isShiftPressed ? "r" : "R");
-        }
-    
-
-    private void Start_Button_Click(object sender, RoutedEventArgs e)
-        {
-            outputText.Text = null;
-            startButton.IsEnabled = false;
-            start();
-        }
         private void Stop_Button_Click(object sender, RoutedEventArgs e)
         {
-            startButton.IsEnabled = true;
-            firstButton.IsEnabled = false;
-            secondButton.IsEnabled = false;
-            thirdButton.IsEnabled = false;
-            fourthtButton.IsEnabled = false;
-            stopButton.IsEnabled = false;
-        }
-        public void start()
-        {
-            firstButton.IsEnabled = true;
-            secondButton.IsEnabled = true;
-            thirdButton.IsEnabled = true;
-            fourthtButton.IsEnabled = true;
-            stopButton.IsEnabled = true;
-            
+            stopBtn.IsEnabled = false;
+            startBtn.IsEnabled = true;
+
         }
 
-        private void First_Button_Click(object sender, RoutedEventArgs e)
+        private void Button_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (isCapsLockOn)
+
+        }
+
+        private void outputBlock_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.LeftShift || e.Key == Key.RightShift)
             {
-                outputText.Text += isShiftPressed ? "Q" : "q";
+                if (regist)
+                {
+                    blockQ.Text = blockQ.Text.ToLower();
+                    blockU.Text = blockU.Text.ToLower();
+                    blockX.Text = blockX.Text.ToLower();
+                    blockR.Text = blockR.Text.ToLower();
+
+                    regist = false;
+                }
+                else
+                {
+                    blockQ.Text = blockQ.Text.ToUpper();
+                    blockU.Text = blockU.Text.ToUpper();
+                    blockX.Text = blockX.Text.ToUpper();
+                    blockR.Text = blockR.Text.ToUpper();
+                    regist = true;
+                }
+
             }
-            else
+
+
+            if (e.Key == Key.Q )
             {
-                outputText.Text += isShiftPressed ? "q" : "Q";
+                outputBlock.Text += blockQ.Text;
+                keyOne.Background = new SolidColorBrush(Colors.White);
+            }
+            if (e.Key == Key.U)
+            {
+                outputBlock.Text += blockU.Text;
+                keyTwo.Background = new SolidColorBrush(Colors.White);
+
+            }
+            if (e.Key == Key.X)
+            {
+                outputBlock.Text += blockX.Text;
+                keyThree.Background = new SolidColorBrush(Colors.White);
+            }
+            if (e.Key == Key.R)
+            {
+                outputBlock.Text += blockR.Text;
+                keyFour.Background = new SolidColorBrush(Colors.White);
+            }
+            if(e.Key == Key.CapsLock)
+            {
+                if (regist)
+                {
+                    blockQ.Text = blockQ.Text.ToLower();
+                    blockU.Text = blockU.Text.ToLower();
+                    blockX.Text = blockX.Text.ToLower();
+                    blockR.Text = blockR.Text.ToLower();
+
+                    regist = false;
+                }
+                else
+                {
+                    blockQ.Text = blockQ.Text.ToUpper();
+                    blockU.Text = blockU.Text.ToUpper();
+                    blockX.Text = blockX.Text.ToUpper();
+                    blockR.Text = blockR.Text.ToUpper();
+                    regist = true;
+                }
+            }
+
+            if (e.Key == Key.Back && !outputBlock.Text.Equals(""))
+            {
+                outputBlock.Text = outputBlock.Text.Remove(outputBlock.Text.Length - 1);
             }
         }
 
-        private void Second_Button_Click(object sender, RoutedEventArgs e)
+        private void outputBlock_KeyUp(object sender, KeyEventArgs e)
         {
-            if (isCapsLockOn)
+            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
             {
-                outputText.Text += isShiftPressed ? "W" : "w";
+                if (regist)
+                {
+                    blockQ.Text = blockQ.Text.ToLower();
+                    blockU.Text = blockU.Text.ToLower();
+                    blockX.Text = blockX.Text.ToLower();
+                    blockR.Text = blockR.Text.ToLower();
+
+                    regist = false;
+                }
+                else
+                {
+                    blockQ.Text = blockQ.Text.ToUpper();
+                    blockU.Text = blockU.Text.ToUpper();
+                    blockX.Text = blockX.Text.ToUpper();
+                    blockR.Text = blockR.Text.ToUpper();
+                    regist = true;
+                }
+
             }
-            else
+
+            if (e.Key == Key.Q)
             {
-                outputText.Text += isShiftPressed ? "w" : "W";
+                keyOne.Background = new SolidColorBrush(Colors.LightGreen);
+            }
+            if (e.Key == Key.U)
+            {
+                keyTwo.Background = new SolidColorBrush(Colors.LightBlue);
+            }
+            if (e.Key == Key.X)
+            {
+                keyThree.Background = new SolidColorBrush(Colors.LemonChiffon);
+            }
+            if (e.Key == Key.R)
+            {
+                keyFour.Background = new SolidColorBrush(Colors.LightPink);
+            }
+           
+        }
+
+        public void randowSymbols()
+        {
+            inputBLock.Text = null;
+            char[] chars = { 'q', 'u', 'Q', 'U', 'x', 'X', 'r', 'R' };
+            Random random = new Random();
+            for(int i=0; i<chars.Length; i++) {
+            int rndChar = random.Next(0, 7);
+            inputBLock.Text += chars[rndChar];
             }
         }
 
-        private void Third_Button_Click(object sender, RoutedEventArgs e)
+        public void checkSymbols()
         {
-            if (isCapsLockOn)
+            for (int i = 0; i < 8; i++)
             {
-                outputText.Text += isShiftPressed ? "E" : "e";
-            }
-            else
-            {
-                outputText.Text += isShiftPressed ? "e" : "E";
-            }
-        }
-
-        private void Fourth_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (isCapsLockOn)
-            {
-                outputText.Text += isShiftPressed ? "R" : "r";
-            }
-            else
-            {
-                outputText.Text += isShiftPressed ? "r" : "R";
+                if (inputBLock.Text[i] != outputBlock.Text[i])
+                {
+                    outputBlock.Background = new SolidColorBrush(Colors.Red);
+                }
             }
         }
     }

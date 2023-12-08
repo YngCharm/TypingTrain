@@ -32,13 +32,16 @@
             <Setter Property="FontSize" Value="32"/>
             <Setter Property="Height" Value="60"/>
         </Style>
+
+        <Style TargetType="TextBlock" x:Key="KeyText">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Height" Value="70"/>
+            <Setter Property="Width" Value="190"/>
+        </Style>
     </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -48,50 +51,47 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBox}">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>  
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="outputText" Style="{StaticResource TextBox}" >
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Background="Purple" Content="q"  Style="{StaticResource ButtonText}" Click="First_Button_Click" x:Name="firstButton">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Background="Orange" Content="w" Style="{StaticResource ButtonText}" Click="Second_Button_Click" x:Name="secondButton">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Background="Yellow" Content="e" Style="{StaticResource ButtonText}" Click="Third_Button_Click" x:Name="thirdButton">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Background="Red" Content="r" Style="{StaticResource ButtonText}" Click="Fourth_Button_Click" x:Name="fourthtButton">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button Grid.Row="4" Grid.Column="1" BorderBrush="Black" Content="Start" IsEnabled="True" Style="{StaticResource ButtonControl}" Click="Start_Button_Click" x:Name="startButton"/>
-        <Button Grid.Row="5" Grid.Column="1" BorderBrush="Black" Content="Stop" IsEnabled="False" Style="{StaticResource ButtonControl}" Click="Stop_Button_Click" x:Name="stopButton"/>
-
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Background="AliceBlue" BorderBrush="Black" BorderThickness="2" CornerRadius="20" Margin="5" >
+                <TextBlock VerticalAlignment="Center" FontSize="20" x:Name="inputBLock"/>
+            </Border>
+            <Border Grid.Row="1" Background="AliceBlue" BorderBrush="Black" BorderThickness="2" CornerRadius="20"  Margin="5">
+                <TextBlock VerticalAlignment="Center" FontSize="20" x:Name="outputBlock" KeyDown="outputBlock_KeyDown" KeyUp="outputBlock_KeyUp"/>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Background="LightGreen" BorderBrush="Black" BorderThickness="2" CornerRadius="20"  Margin="5" x:Name="keyOne" >
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Text="q" Name="blockQ"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1" Background="LightBlue" BorderBrush="Black" BorderThickness="2" CornerRadius="20"  Margin="5" x:Name="keyTwo">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Text="u" Name="blockU"/>
+            </Border>
+            <Border Grid.Row="1" Background="LemonChiffon" BorderBrush="Black" BorderThickness="2" CornerRadius="20"  Margin="5" x:Name="keyThree">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Text="x" Name="blockX"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1" Background="LightPink" BorderBrush="Black" BorderThickness="2" CornerRadius="20"  Margin="5" x:Name="keyFour">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Text="r" Name="blockR"/>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Content="Start" FontSize="32" Margin="5" Click="Start_Button_Click" x:Name="startBtn"/>
+            <Button Grid.Row="1" Content="Stop" FontSize="32" Margin="5" Click="Stop_Button_Click" x:Name="stopBtn"/>
+        </Grid>
     </Grid>
 </Window>
